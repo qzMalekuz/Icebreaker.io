@@ -1,0 +1,305 @@
+/* ── Page layouts ─────────────────────────────────────────────── */
+.page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2rem;
+  gap: 1.25rem;
+  animation: fadeIn 400ms ease forwards;
+}
+
+.centerPage {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 400ms ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Round progress bar ──────────────────────────────────────── */
+.roundBar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-btn);
+}
+
+.roundDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.dotDone    { background: var(--success); }
+.dotActive  { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.dotPending { background: transparent; border: 1px solid rgba(255,255,255,0.15); }
+
+.roundLabel {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ── Question card ───────────────────────────────────────────── */
+.questionCard {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-card);
+  padding: 1.25rem 1.4rem;
+  box-shadow: inset 0 0 40px var(--accent-glow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.questionLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.questionText {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ── Anonymity note ──────────────────────────────────────────── */
+.anonNote {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+/* ── Options ─────────────────────────────────────────────────── */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s, opacity 0.2s, transform 0.1s;
+  width: 100%;
+}
+.option:not(:disabled):hover {
+  border-color: var(--accent);
+  background: var(--surface-2);
+}
+.option:not(:disabled):active { transform: scale(0.99); }
+.option:disabled { cursor: not-allowed; }
+
+.optionSelected {
+  border-color: var(--accent) !important;
+  background: rgba(201, 147, 58, 0.1) !important;
+  box-shadow: 0 0 20px rgba(201, 147, 58, 0.12);
+}
+
+.optionDimmed { opacity: 0.3; }
+
+.optionId {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--accent);
+  min-width: 1.1rem;
+  text-transform: uppercase;
+}
+
+.optionText {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: var(--text);
+  flex: 1;
+  line-height: 1.4;
+}
+
+.optionCheck {
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin-left: auto;
+  padding-left: 0.5rem;
+}
+
+/* ── Waiting bar ─────────────────────────────────────────────── */
+.waitingBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding: 0.75rem;
+}
+
+.waitingDot {
+  width: 7px; height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.15; }
+}
+
+/* ── Round result card ───────────────────────────────────────── */
+.resultCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 2.5rem 2rem;
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  animation: fadeIn 350ms ease forwards;
+}
+
+.roundTag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.matchLabel {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--success);
+  letter-spacing: -0.02em;
+}
+
+.mismatchLabel {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--danger);
+  letter-spacing: -0.02em;
+}
+
+.compareGrid {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.compareBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-btn);
+  padding: 0.85rem 0.75rem;
+  text-align: center;
+  min-width: 0;
+}
+
+.compareWho {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.compareAnswer {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.compareDivider {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.nextHint {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Generic disconnected card ───────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 2.5rem 2rem;
+  max-width: 380px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.bigText {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-style: italic;
+}
+
+.muted {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.linkBtn {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s;
+  margin-top: 0.5rem;
+}
+.linkBtn:hover { color: var(--text); }
