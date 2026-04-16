@@ -7,7 +7,9 @@
       "Bash(kill 63901)",
       "Bash(rtk npx *)",
       "Bash(curl -s http://localhost:3001/health)",
-      "Bash(node_modules/.bin/tsx src/index.ts)"
+      "Bash(node_modules/.bin/tsx src/index.ts)",
+      "Bash(rtk wc *)",
+      "Bash(rtk read *)"
     ]
   }
 }
