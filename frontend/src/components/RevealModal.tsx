@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import s from './RevealModal.module.css';
 
-interface Props {
-  onEnter: () => void;
-}
+interface Props { onEnter: () => void; }
 
 export default function RevealModal({ onEnter }: Props) {
   const [shareEnabled, setShareEnabled] = useState(true);
@@ -11,84 +8,81 @@ export default function RevealModal({ onEnter }: Props) {
   const [note, setNote] = useState('');
   const [contactError, setContactError] = useState('');
 
-  const contactTrimmed = contact.trim();
-  const canEnter = contactTrimmed.length > 0;
+  const canEnter = contact.trim().length > 0;
 
   function handleEnter() {
-    if (!canEnter) {
-      setContactError('This field is required to enter.');
-      return;
-    }
+    if (!canEnter) { setContactError('This field is required to enter.'); return; }
     setContactError('');
-    sessionStorage.setItem(
-      'revealPrefs',
-      JSON.stringify({ shareEnabled, contact: contactTrimmed, note: note.trim() })
-    );
+    sessionStorage.setItem('revealPrefs', JSON.stringify({ shareEnabled, contact: contact.trim(), note: note.trim() }));
     onEnter();
   }
 
   return (
-    <div className={s.backdrop}>
-      <div className={s.panel}>
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/70 backdrop-blur-xs animate-fade-in">
+      <div className="w-full max-w-[500px] bg-[#1a1917] border border-[rgba(80,69,55,0.25)] rounded-2xl p-10 flex flex-col gap-7 animate-slide-up">
+
         {/* Header */}
-        <div className={s.header}>
-          <div className={s.headerText}>
-            <div className={s.title}>The Reveal</div>
-            <div className={s.subtitle}>Identity Protocol</div>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="font-mono text-[0.75rem] font-bold tracking-[0.25em] uppercase text-accent-bright">The Reveal</div>
+            <div className="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-[rgba(230,225,223,0.3)] mt-1">Identity Protocol</div>
           </div>
 
           {/* Toggle */}
           <button
-            className={s.toggle}
-            onClick={() => setShareEnabled((v) => !v)}
+            onClick={() => setShareEnabled(v => !v)}
             aria-label="Toggle identity sharing"
             aria-pressed={shareEnabled}
+            className="relative w-12 h-[26px] flex-shrink-0 bg-transparent border-none outline-none p-0 appearance-none-all cursor-pointer"
           >
-            <div className={`${s.toggleTrack} ${shareEnabled ? s.toggleTrackOn : ''}`} />
-            <div className={`${s.toggleThumb} ${shareEnabled ? s.toggleThumbOn : ''}`} />
+            <div className={`w-full h-full rounded-full border transition-all duration-250 ${shareEnabled ? 'bg-[rgba(201,147,58,0.35)] border-[rgba(248,188,95,0.4)]' : 'bg-[rgba(80,69,55,0.35)] border-[rgba(80,69,55,0.4)]'}`} />
+            <div className={`absolute top-[3px] left-[3px] w-5 h-5 rounded-full transition-all duration-250 ${shareEnabled ? 'translate-x-[22px] bg-accent-bright' : 'bg-[rgba(170,155,135,0.7)]'}`} />
           </button>
         </div>
 
         {/* Fields */}
-        <div className={s.fields}>
-          <div className={s.field}>
-            <label className={s.fieldLabel} htmlFor="reveal-contact">
-              Stay Connected Via <span className={s.required}>*</span>
+        <div className="flex flex-col gap-6">
+          <div>
+            <label className="block font-mono text-[0.6rem] tracking-[0.25em] uppercase text-[rgba(230,225,223,0.35)] mb-[0.6rem]" htmlFor="reveal-contact">
+              Stay Connected Via <span className="text-accent-bright">*</span>
             </label>
             <input
               id="reveal-contact"
-              className={`${s.fieldInput} ${contactError ? s.fieldInputError : ''}`}
               type="text"
               placeholder="Instagram @handle, LinkedIn, or Email"
               value={contact}
               maxLength={120}
-              onChange={(e) => { setContact(e.target.value); if (contactError) setContactError(''); }}
               autoFocus
+              onChange={e => { setContact(e.target.value); if (contactError) setContactError(''); }}
+              className={`w-full bg-transparent border-none border-b outline-none text-[rgba(230,225,223,0.75)] font-mono text-[0.88rem] italic py-[0.6rem] caret-amber transition-colors box-border placeholder:text-[rgba(230,225,223,0.2)] ${contactError ? 'border-b-[rgba(255,100,80,0.6)]' : 'border-b-[rgba(80,69,55,0.4)] focus:border-b-[rgba(248,188,95,0.5)]'}`}
             />
-            {contactError && <span className={s.fieldError}>{contactError}</span>}
+            {contactError && <span className="block font-mono text-[0.58rem] tracking-[0.1em] text-danger-light mt-1">{contactError}</span>}
           </div>
 
-          <div className={s.field}>
-            <label className={s.fieldLabel} htmlFor="reveal-note">
+          <div>
+            <label className="block font-mono text-[0.6rem] tracking-[0.25em] uppercase text-[rgba(230,225,223,0.35)] mb-[0.6rem]" htmlFor="reveal-note">
               A Personal Note
             </label>
             <input
               id="reveal-note"
-              className={s.fieldInput}
               type="text"
               placeholder="Something only you would say..."
               value={note}
               maxLength={200}
-              onChange={(e) => setNote(e.target.value)}
+              onChange={e => setNote(e.target.value)}
+              className="w-full bg-transparent border-none border-b border-b-[rgba(80,69,55,0.4)] outline-none text-[rgba(230,225,223,0.75)] font-mono text-[0.88rem] italic py-[0.6rem] caret-amber transition-colors box-border placeholder:text-[rgba(230,225,223,0.2)] focus:border-b-[rgba(248,188,95,0.5)]"
             />
           </div>
         </div>
 
-        <p className={s.disclaimer}>
+        <p className="font-mono text-[0.58rem] tracking-[0.12em] uppercase text-[rgba(230,225,223,0.2)] text-center leading-[1.7]">
           Information only shared if both parties choose to unmask.
         </p>
 
-        <button className={`${s.cta} ${!canEnter ? s.ctaDisabled : ''}`} onClick={handleEnter}>
+        <button
+          onClick={handleEnter}
+          className={`w-full py-4 bg-accent text-[#281800] border-none rounded-btn font-mono text-[0.72rem] font-bold uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(201,147,58,0.25)] transition-all hover:bg-[#daa84a] hover:shadow-[0_0_30px_rgba(201,147,58,0.45)] active:scale-[0.97] ${!canEnter ? 'opacity-40 cursor-not-allowed hover:bg-accent hover:shadow-none' : 'cursor-pointer'}`}
+        >
           Enter the Void
         </button>
       </div>
