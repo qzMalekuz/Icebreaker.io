@@ -1,0 +1,579 @@
+[
+  {
+    "id": "TC001",
+    "title": "Complete the 3-round session and reach the decision screen",
+    "description": "A matched visitor can progress through all three rounds by answering only when it is their turn and then reach the decision screen at the end.",
+    "category": "Turn-based Conversation Session (3 messages each)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid alias into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the find-a-stranger action to enter matchmaking"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the session to start after a match is found"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 1"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 2"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 3"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the decision screen is displayed after all rounds complete"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "Submit valid alias and proceed to waiting room",
+    "description": "Verifies a visitor can enter a valid alias, confirm the reveal modal, and be taken to the waiting room.",
+    "category": "Username Entry",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill Icebreaker_01 into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to request a match"
+      },
+      {
+        "type": "action",
+        "description": "Confirm the reveal modal to proceed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user lands in the waiting room"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Stay connected and get a shareable link",
+    "description": "After completing the conversation, choosing to stay connected leads to a matched outcome where a shareable link is presented.",
+    "category": "Decision & Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid alias into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the find-a-stranger action to enter matchmaking"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the session to start after a match is found"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 1"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 2"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 3"
+      },
+      {
+        "type": "action",
+        "description": "Choose the option to stay connected"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a matched outcome is displayed and a shareable link is presented"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Waiting room shows active waiting state after joining queue",
+    "description": "Verifies that after entering the waiting room the UI indicates the user is waiting in the matchmaking queue.",
+    "category": "Matchmaking Queue (Waiting Room)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill Icebreaker_03 into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to request a match"
+      },
+      {
+        "type": "action",
+        "description": "Confirm the reveal modal to proceed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a waiting-for-match state is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Vanish results in gone outcome with no share link",
+    "description": "After completing the conversation, choosing to vanish results in a gone outcome where no shareable link is shown.",
+    "category": "Decision & Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid alias into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the find-a-stranger action to enter matchmaking"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the session to start after a match is found"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 1"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 2"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 3"
+      },
+      {
+        "type": "action",
+        "description": "Choose the option to vanish"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a gone outcome is displayed and no shareable link is shown"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Cancel matchmaking from waiting room returns to landing",
+    "description": "Verifies a visitor can leave the lobby from the waiting room and return to the landing page.",
+    "category": "Matchmaking Queue (Waiting Room)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill Icebreaker_04 into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to request a match"
+      },
+      {
+        "type": "action",
+        "description": "Confirm the reveal modal to proceed"
+      },
+      {
+        "type": "action",
+        "description": "Leave the lobby to cancel matchmaking"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user returns to the landing page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Match again returns to landing and clears prior session state",
+    "description": "From the result screen, the visitor can start over via match again and returns to the landing page ready for a new match without stale session state.",
+    "category": "Decision & Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid alias into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the find-a-stranger action to enter matchmaking"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the session to start after a match is found"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 1"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 2"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 3"
+      },
+      {
+        "type": "action",
+        "description": "Choose the option to stay connected"
+      },
+      {
+        "type": "action",
+        "description": "Click the match-again action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user lands on the landing page in a ready state to start matchmaking"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Online stranger count displays on landing",
+    "description": "Verifies the landing page shows an online indicator with a visible online stranger count.",
+    "category": "Online Count Display",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an online stranger count is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC009",
+    "title": "Online stranger count displays in waiting room",
+    "description": "Verifies the waiting room displays an online stranger count panel while waiting for a match.",
+    "category": "Matchmaking Queue (Waiting Room)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill Icebreaker_02 into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to request a match"
+      },
+      {
+        "type": "action",
+        "description": "Confirm the reveal modal to proceed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an online stranger count is displayed in the waiting room"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC010",
+    "title": "Prevent answering out of turn",
+    "description": "A matched visitor cannot submit an answer when it is not their turn and remains in the waiting state with a visible validation/rejection.",
+    "category": "Turn-based Conversation Session (3 messages each)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid alias into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the find-a-stranger action to enter matchmaking"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the session to start after a match is found"
+      },
+      {
+        "type": "action",
+        "description": "Wait until the UI indicates it is not your turn"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to select an answer option while it is not your turn"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an out-of-turn validation/rejection is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC011",
+    "title": "Copy the share link after matching",
+    "description": "After both users stay connected, the visitor can copy the share link and sees a UI confirmation that it was copied.",
+    "category": "Decision & Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid alias into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the find-a-stranger action to enter matchmaking"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the session to start after a match is found"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 1"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 2"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
+      },
+      {
+        "type": "action",
+        "description": "When it is your turn, select an answer option for round 3"
+      },
+      {
+        "type": "action",
+        "description": "Choose the option to stay connected"
+      },
+      {
+        "type": "action",
+        "description": "Click the control to copy the share link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a copy confirmation is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC012",
+    "title": "Reject empty alias submission",
+    "description": "Verifies that submitting without an alias shows a validation error and does not start matchmaking.",
+    "category": "Username Entry",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill  into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to request a match"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an alias required validation error is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC013",
+    "title": "Reject alias with invalid characters",
+    "description": "Verifies that submitting an alias with disallowed characters shows a validation error and does not proceed to the reveal modal.",
+    "category": "Username Entry",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill Bad@lias! into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to request a match"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an alias validation error is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC014",
+    "title": "Reject alias longer than 20 characters",
+    "description": "Verifies that submitting an alias exceeding the maximum length shows a validation error and blocks progression.",
+    "category": "Username Entry",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill ThisAliasIsWayTooLong123 into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to request a match"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an alias length validation error is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC015",
+    "title": "Read safety guidance",
+    "description": "An anonymous visitor can navigate to the safety page and see the safety information content displayed.",
+    "category": "Static Safety & Philosophy Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /safety"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify static safety information is displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC016",
+    "title": "Reject whitespace-only alias submission",
+    "description": "Verifies that an alias consisting only of whitespace is treated as invalid and shows a validation error.",
+    "category": "Username Entry",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill      into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to request a match"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an alias validation error is visible"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC017",
+    "title": "Read philosophy/about information",
+    "description": "An anonymous visitor can navigate to the philosophy page and see the philosophy/about content displayed.",
+    "category": "Static Safety & Philosophy Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /philosophy"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify philosophy/about information is displayed"
+      }
+    ],
+    "priority": "Low"
+  }
+]

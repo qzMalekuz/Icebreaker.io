@@ -1,7 +1,18 @@
 {
-  "status": "init",
-  "scope": "codebase",
+  "status": "commited",
   "type": "frontend",
-  "localEndpoint": "http://localhost:5174/",
-  "serverPort": 49509
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5174",
+  "executionArgs": {
+    "projectName": "Icebreaker.io",
+    "projectPath": "/Users/qzmalekuz/Documents/root/Icebreaker.io",
+    "testIds": [],
+    "additionalInstruction": "Frontend runs on port 5174. Backend on port 3001. No auth required. Real-time matching requires two simultaneous socket connections. Test the full user flow: landing page username entry, waiting room, and result screen. For session tests, note that two users must be matched simultaneously.",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-cuHjndWjPUriT3Tp1A0Tq8rGHXiov8t1cOlhzx-GmlssqaaDuxGUUHx9eLbbA4wlQmzYWf1bPIQYxEfrkoZzACDICTWZIX50jlvUxT0grqRV-F90rx4hm0FTZCD9RJKnRDg"
+    }
+  },
+  "serverPort": 62871,
+  "proxy": "http://6557d7e9-e416-491b-a2cf-c208c95efaa9:yzOcJ7PT4VRvvAGRySPCNaFnIKNLnALv@tun.testsprite.com:8080"
 }
