@@ -37,7 +37,7 @@
 
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: #0d0c0b; }
-  ::-webkit-scrollbar-thumb { background: #363433; border-radius: 3px; }
+  /* ::-webkit-scrollbar-thumb { background: #363433; border-radius: 3px; } */
 }
 
 /* ── Utilities that can't be expressed with Tailwind alone ── */

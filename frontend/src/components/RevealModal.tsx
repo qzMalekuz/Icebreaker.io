@@ -21,7 +21,7 @@ export default function RevealModal({ onEnter }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-fade-in">
+    <div className="fixed inset-0 z-[200] h-screen flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-fade-in">
       <div className="w-full max-w-[500px] max-h-[90vh] overflow-y-auto bg-[#1a1917] border border-[rgba(80,69,55,0.25)] rounded-2xl p-8 flex flex-col gap-6 animate-slide-up">
 
         {/* Header */}

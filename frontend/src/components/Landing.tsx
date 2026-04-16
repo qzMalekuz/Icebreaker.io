@@ -52,7 +52,7 @@ export default function Landing() {
     <>
       {/* ── Void transition overlay ── */}
       {transitioning && (
-        <div className="fixed inset-0 z-[300] flex items-center justify-center overflow-hidden bg-bg animate-void-enter">
+        <div className="fixed inset-0 z-[300] flex h-screen items-center justify-center overflow-hidden bg-bg animate-void-enter">
           {/* Rings */}
           {RING_SIZES.map((r, i) => (
             <div

@@ -119,7 +119,7 @@ export default function Result() {
 
           {/* Reveal panel — stagger */}
           <div
-            className="w-full bg-[rgba(29,27,26,0.7)] border border-[rgba(80,69,55,0.25)] rounded-xl p-5 flex flex-col gap-4 text-left opacity-0 animate-stagger-fade"
+            className="w-full  bg-[rgba(29,27,26,0.7)] border border-[rgba(80,69,55,0.25)] rounded-xl p-5 flex flex-col gap-4 text-left opacity-0 animate-stagger-fade"
             style={{ animationDelay: '0.55s', animationFillMode: 'forwards' }}
           >
             <div className="flex items-start justify-between gap-4">
