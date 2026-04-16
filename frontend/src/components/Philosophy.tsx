@@ -10,27 +10,43 @@ const quotes = [
 export default function Philosophy() {
   const navigate = useNavigate();
   return (
-    <div className="min-h-dvh bg-[var(--bg)] flex justify-center px-6 py-24 animate-page-in-fast">
+    <div className="min-h-dvh bg-[var(--bg)] flex justify-center px-6 py-24">
       <div className="w-full max-w-[800px] flex flex-col gap-8">
+
         <button
           onClick={() => navigate('/')}
-          className="font-mono text-[0.7rem] tracking-[0.15em] uppercase text-text-muted bg-none border-none cursor-pointer p-0 text-left transition-colors hover:text-accent -mb-2"
+          className="font-mono text-[0.7rem] tracking-[0.15em] uppercase text-text-muted bg-none border-none cursor-pointer p-0 text-left transition-colors hover:text-accent -mb-2 opacity-0 animate-stagger-fade"
+          style={{ animationDelay: '0s', animationFillMode: 'forwards' }}
         >
           ← back
         </button>
 
-        <span className="font-mono text-[0.62rem] tracking-[0.35em] uppercase text-text-muted">The Philosophy</span>
-        <h1 className="font-display italic text-text font-bold leading-[1.1] tracking-[-0.02em] -mt-3" style={{ fontSize: 'clamp(2.4rem, 6vw, 3.6rem)' }}>
+        <span
+          className="font-mono text-[0.62rem] tracking-[0.35em] uppercase text-text-muted opacity-0 animate-stagger-fade"
+          style={{ animationDelay: '0.08s', animationFillMode: 'forwards' }}
+        ></span>
+
+        <h1
+          className="font-display italic text-text font-bold leading-[1.1] tracking-[-0.02em] -mt-3 opacity-0 animate-question-reveal"
+          style={{ fontSize: 'clamp(2.4rem, 6vw, 3.6rem)', animationDelay: '0.14s', animationFillMode: 'forwards' }}
+        >
           Why This Exists.
         </h1>
 
-        <p className="font-mono text-[0.95rem] text-text-muted leading-[1.85]">
+        <p
+          className="font-mono text-[0.95rem] text-text-muted leading-[1.85] opacity-0 animate-stagger-fade"
+          style={{ animationDelay: '0.22s', animationFillMode: 'forwards' }}
+        >
           We've never been more connected — and never more afraid to talk to strangers.
         </p>
 
         <div className="flex flex-col gap-10 my-4">
           {quotes.map((q, i) => (
-            <blockquote key={i} className="border-l-2 border-accent pl-8 flex flex-col gap-3">
+            <blockquote
+              key={i}
+              className="border-l-2 border-accent pl-8 flex flex-col gap-3 opacity-0 animate-stagger-fade"
+              style={{ animationDelay: `${0.32 + i * 0.12}s`, animationFillMode: 'forwards' }}
+            >
               <p className="font-display italic text-text leading-[1.55]" style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)' }}>
                 "{q.text}"
               </p>
@@ -42,7 +58,10 @@ export default function Philosophy() {
           ))}
         </div>
 
-        <div className="mt-6 text-center py-12 px-4 border-t border-[var(--border)]">
+        <div
+          className="mt-6 text-center py-12 px-4 border-t border-[var(--border)] opacity-0 animate-stagger-fade"
+          style={{ animationDelay: '0.84s', animationFillMode: 'forwards' }}
+        >
           <p className="font-display italic text-text-muted leading-[2]" style={{ fontSize: 'clamp(1rem, 2.5vw, 1.3rem)' }}>
             Icebreaker.io is an experiment in radical smallness.<br />
             No followers. No profiles. No history.<br />

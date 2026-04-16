@@ -1,46 +1,62 @@
 import { useNavigate } from 'react-router-dom';
 
+const items = [
+  { type: 'text', content: 'Icebreaker.io is fully open source. Every line of code that handles your session, your messages, and your anonymity is public and auditable.' },
+  { type: 'text', content: "No accounts. No stored messages. No logs. Sessions are ephemeral — when you vanish, you're gone for real." },
+  { type: 'warning', content: '⚠ What you share is your choice. By entering this space, you acknowledge that anything you type is shared voluntarily with a stranger. Icebreaker.io, its contributors, and its maintainers hold no responsibility for the content of conversations between users.' },
+  { type: 'text', content: "Be real. Be kind. Don't be a fool about what you share." },
+];
+
 export default function Safety() {
   const navigate = useNavigate();
   return (
-    <div className="min-h-dvh bg-[var(--bg)] flex justify-center px-6 py-24 animate-page-in-fast">
+    <div className="min-h-dvh bg-[var(--bg)] flex justify-center px-6 py-24">
       <div className="w-full max-w-[720px] flex flex-col gap-8">
+
         <button
           onClick={() => navigate('/')}
-          className="font-mono text-[0.7rem] tracking-[0.15em] uppercase text-text-muted bg-none border-none cursor-pointer p-0 text-left transition-colors hover:text-accent -mb-2"
+          className="font-mono text-[0.7rem] tracking-[0.15em] uppercase text-text-muted bg-none border-none cursor-pointer p-0 text-left transition-colors hover:text-accent -mb-2 opacity-0 animate-stagger-fade"
+          style={{ animationDelay: '0s', animationFillMode: 'forwards' }}
         >
           ← back
         </button>
 
-        <span className="font-mono text-[0.62rem] tracking-[0.35em] uppercase text-text-muted">The Fine Print (But Make It Honest)</span>
-        <h1 className="font-display text-text font-bold leading-[1.1] tracking-[-0.02em] -mt-3" style={{ fontSize: 'clamp(2.4rem, 6vw, 3.6rem)' }}>
+        <span
+          className="font-mono text-[0.62rem] tracking-[0.35em] uppercase text-text-muted opacity-0 animate-stagger-fade"
+          style={{ animationDelay: '0.08s', animationFillMode: 'forwards' }}
+        ></span>
+
+        <h1
+          className="font-display text-text font-bold leading-[1.1] tracking-[-0.02em] -mt-3 opacity-0 animate-question-reveal"
+          style={{ fontSize: 'clamp(2.4rem, 6vw, 3.6rem)', animationDelay: '0.14s', animationFillMode: 'forwards' }}
+        >
           Your Safety, Your Call.
         </h1>
 
-        <p className="font-mono text-[0.88rem] text-text-muted leading-[1.9]">
-          Icebreaker.io is fully open source. Every line of code that handles your session,
-          your messages, and your anonymity is public and auditable.
-        </p>
+        {items.map((item, i) =>
+          item.type === 'warning' ? (
+            <div
+              key={i}
+              className="bg-surface2 border-l-4 border-l-danger rounded-r-[12px] p-6 opacity-0 animate-stagger-fade"
+              style={{ animationDelay: `${0.22 + i * 0.1}s`, animationFillMode: 'forwards' }}
+            >
+              <p className="font-mono text-[0.82rem] text-text-muted leading-[1.85]">{item.content}</p>
+            </div>
+          ) : (
+            <p
+              key={i}
+              className="font-mono text-[0.88rem] text-text-muted leading-[1.9] opacity-0 animate-stagger-fade"
+              style={{ animationDelay: `${0.22 + i * 0.1}s`, animationFillMode: 'forwards' }}
+            >
+              {item.content}
+            </p>
+          )
+        )}
 
-        <p className="font-mono text-[0.88rem] text-text-muted leading-[1.9]">
-          No accounts. No stored messages. No logs. Sessions are ephemeral —
-          when you vanish, you're gone for real.
-        </p>
-
-        <div className="bg-surface2 border-l-4 border-l-danger rounded-r-card p-6">
-          <p className="font-mono text-[0.82rem] text-text-muted leading-[1.85]">
-            ⚠ What you share is your choice. By entering this space, you acknowledge that
-            anything you type is shared voluntarily with a stranger. Icebreaker.io, its
-            contributors, and its maintainers hold no responsibility for the content of
-            conversations between users.
-          </p>
-        </div>
-
-        <p className="font-mono text-[0.88rem] text-text-muted leading-[1.9]">
-          Be real. Be kind. Don't be a fool about what you share.
-        </p>
-
-        <div className="flex flex-col gap-[0.6rem] mt-2">
+        <div
+          className="flex flex-col gap-[0.6rem] mt-2 opacity-0 animate-stagger-fade"
+          style={{ animationDelay: '0.65s', animationFillMode: 'forwards' }}
+        >
           <span className="font-mono text-[0.6rem] tracking-[0.3em] uppercase text-text-muted">Source Code</span>
           <a
             href="https://github.com/qzMalekuz/Icebreaker.io"

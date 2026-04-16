@@ -7,6 +7,7 @@ export default function RevealModal({ onEnter }: Props) {
   const [contact, setContact] = useState('');
   const [note, setNote] = useState('');
   const [contactError, setContactError] = useState('');
+  const [entering, setEntering] = useState(false);
 
   const canEnter = contact.trim().length > 0;
 
@@ -14,12 +15,14 @@ export default function RevealModal({ onEnter }: Props) {
     if (!canEnter) { setContactError('This field is required to enter.'); return; }
     setContactError('');
     sessionStorage.setItem('revealPrefs', JSON.stringify({ shareEnabled, contact: contact.trim(), note: note.trim() }));
-    onEnter();
+    setEntering(true);
+    // Small delay so the button press registers visually before the parent transitions
+    setTimeout(onEnter, 320);
   }
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/70 backdrop-blur-xs animate-fade-in">
-      <div className="w-full max-w-[500px] bg-[#1a1917] border border-[rgba(80,69,55,0.25)] rounded-2xl p-10 flex flex-col gap-7 animate-slide-up">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-fade-in">
+      <div className="w-full max-w-[500px] max-h-[90vh] overflow-y-auto bg-[#1a1917] border border-[rgba(80,69,55,0.25)] rounded-2xl p-8 flex flex-col gap-6 animate-slide-up">
 
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
@@ -35,8 +38,8 @@ export default function RevealModal({ onEnter }: Props) {
             aria-pressed={shareEnabled}
             className="relative w-12 h-[26px] flex-shrink-0 bg-transparent border-none outline-none p-0 appearance-none-all cursor-pointer"
           >
-            <div className={`w-full h-full rounded-full border transition-all duration-250 ${shareEnabled ? 'bg-[rgba(201,147,58,0.35)] border-[rgba(248,188,95,0.4)]' : 'bg-[rgba(80,69,55,0.35)] border-[rgba(80,69,55,0.4)]'}`} />
-            <div className={`absolute top-[3px] left-[3px] w-5 h-5 rounded-full transition-all duration-250 ${shareEnabled ? 'translate-x-[22px] bg-accent-bright' : 'bg-[rgba(170,155,135,0.7)]'}`} />
+            <div className={`w-full h-full rounded-full border transition-all duration-[250ms] ${shareEnabled ? 'bg-[rgba(201,147,58,0.35)] border-[rgba(248,188,95,0.4)]' : 'bg-[rgba(80,69,55,0.35)] border-[rgba(80,69,55,0.4)]'}`} />
+            <div className={`absolute top-[3px] left-[3px] w-5 h-5 rounded-full transition-all duration-[250ms] ${shareEnabled ? 'translate-x-[22px] bg-accent-bright' : 'bg-[rgba(170,155,135,0.7)]'}`} />
           </button>
         </div>
 
@@ -81,9 +84,10 @@ export default function RevealModal({ onEnter }: Props) {
 
         <button
           onClick={handleEnter}
-          className={`w-full py-4 bg-accent text-[#281800] border-none rounded-btn font-mono text-[0.72rem] font-bold uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(201,147,58,0.25)] transition-all hover:bg-[#daa84a] hover:shadow-[0_0_30px_rgba(201,147,58,0.45)] active:scale-[0.97] ${!canEnter ? 'opacity-40 cursor-not-allowed hover:bg-accent hover:shadow-none' : 'cursor-pointer'}`}
+          disabled={entering}
+          className={`w-full py-4 bg-accent text-[#281800] border-none rounded-btn font-mono text-[0.72rem] font-bold uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(201,147,58,0.25)] transition-all active:scale-[0.97] ${entering ? 'opacity-60 scale-[0.98] cursor-not-allowed' : !canEnter ? 'opacity-40 cursor-not-allowed hover:bg-accent hover:shadow-none' : 'cursor-pointer hover:bg-[#daa84a] hover:shadow-[0_0_30px_rgba(201,147,58,0.45)]'}`}
         >
-          Enter the Void
+          {entering ? 'entering...' : 'Enter the Void'}
         </button>
       </div>
     </div>

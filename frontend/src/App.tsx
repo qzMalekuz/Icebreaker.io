@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Landing from './components/Landing';
 import WaitingRoom from './components/WaitingRoom';
 import Session from './components/Session';
@@ -6,10 +6,11 @@ import Result from './components/Result';
 import Safety from './components/Safety';
 import Philosophy from './components/Philosophy';
 
-export default function App() {
+function AnimatedRoutes() {
+  const location = useLocation();
   return (
-    <BrowserRouter>
-      <Routes>
+    <div key={location.pathname} className="animate-route-in">
+      <Routes location={location}>
         <Route path="/" element={<Landing />} />
         <Route path="/waiting" element={<WaitingRoom />} />
         <Route path="/session/:roomId" element={<Session />} />
@@ -18,6 +19,14 @@ export default function App() {
         <Route path="/philosophy" element={<Philosophy />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AnimatedRoutes />
     </BrowserRouter>
   );
 }
