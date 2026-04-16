@@ -57,18 +57,33 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: 1.25rem 1.5rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
+@media (min-width: 768px) {
+  .navInner { padding: 1.5rem 3rem; }
+}
+
 .navBrand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   font-family: 'Noto Serif', 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-size: 1.35rem;
   color: #e0dbd8;
   letter-spacing: -0.01em;
   line-height: 1;
+}
+
+.navLogo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.4rem;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .navLinks {
@@ -431,68 +446,146 @@
 /* ── Footer ───────────────────────────────────────────────────────────────── */
 .footer {
   background: #0a0908;
-  padding: 5rem 2rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 5rem 0 4rem;
   position: relative;
   z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .footer { padding: 6rem 0 5rem; }
 }
 
 .footerInner {
   max-width: 1400px;
   margin: 0 auto;
+  padding: 0 1.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 2rem;
+  gap: 4rem;
 }
 
 @media (min-width: 768px) {
   .footerInner {
+    padding: 0 3rem;
     flex-direction: row;
     justify-content: space-between;
+    align-items: flex-start;
   }
 }
 
-.footerCopy {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(230, 225, 223, 0.2);
+
+/* Left side */
+.footerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.footerLinks {
+.footerBrand {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.footerLogo {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+.footerBrandText {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #e6e1df;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.footerBrandAccent {
+  color: #f8bc5f;
+}
+
+.footerDesc {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  color: rgba(230, 225, 223, 0.35);
+  line-height: 1.85;
+  max-width: 360px;
+}
+
+/* Social icons */
+.footerSocials {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.socialBtn {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 2rem 3rem;
+  color: rgba(230, 225, 223, 0.4);
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.socialBtn svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.socialBtn:hover {
+  background: rgba(248, 188, 95, 0.1);
+  color: #f8bc5f;
+  border-color: rgba(248, 188, 95, 0.25);
 }
 
-.footerLink {
+/* Right side */
+.footerRight {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .footerRight { text-align: right; }
+}
+
+.footerCreditsLabel {
   font-family: 'DM Mono', monospace;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(230, 225, 223, 0.2);
+  color: rgba(230, 225, 223, 0.25);
+  margin-bottom: 0.25rem;
+}
+
+.footerCreditsText {
+  font-family: 'Noto Serif', 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  color: rgba(230, 225, 223, 0.6);
+  line-height: 1.2;
+}
+
+.footerCreditsName {
+  color: #e6e1df;
+  font-weight: 700;
   text-decoration: none;
-  background: none;
-  border: none;
-  cursor: pointer;
   transition: color 0.2s;
 }
-.footerLink:hover { color: rgba(230, 225, 223, 0.6); }
+.footerCreditsName:hover { color: #f8bc5f; }
 
-.footerIcons {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.footerIcon {
-  font-size: 1.2rem;
+.footerCopyright {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
   color: rgba(230, 225, 223, 0.2);
-  cursor: pointer;
-  background: none;
-  border: none;
-  transition: color 0.2s;
-  line-height: 1;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
 }
-.footerIcon:hover { color: #f8bc5f; }

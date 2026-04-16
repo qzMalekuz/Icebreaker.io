@@ -110,22 +110,21 @@
   color: var(--text-muted);
 }
 
-.sourcePill {
-  display: inline-block;
+.githubIconLink {
+  display: inline-flex;
   align-self: flex-start;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
   color: var(--accent);
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0.5rem 1.25rem;
   text-decoration: none;
-  transition: box-shadow 0.2s, border-color 0.2s;
+  transition: color 0.2s, transform 0.15s;
 }
-.sourcePill:hover {
-  box-shadow: 0 0 16px rgba(201, 147, 58, 0.25);
-  border-color: rgba(201, 147, 58, 0.35);
+.githubIconLink:hover {
+  color: #ffd885;
+  transform: scale(1.1);
+}
+
+.githubIcon {
+  width: 1.75rem;
+  height: 1.75rem;
 }
 
 .sourceSub {
