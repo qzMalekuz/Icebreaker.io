@@ -16,6 +16,7 @@ function broadcastOnlineCount(io: Server): void {
   io.emit('queue_update', { onlineCount: io.engine.clientsCount });
 }
 
+
 export function registerHandlers(io: Server, socket: Socket): void {
   console.log(`[connect]    ${socket.id} | total: ${io.engine.clientsCount}`);
   broadcastOnlineCount(io);
