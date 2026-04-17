@@ -1,5 +1,7 @@
 # Icebreaker.io
 
+![Icebreaker.io](frontend/public/icebreaker_banner.png)
+
 Anonymous stranger matching. Turn-based. Disappears when it's over.
 
 Built for the TestSprite Season 2 Hackathon.
