@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 
-// Connect through Vite's proxy (same origin) to avoid CORS entirely.
-// The proxy forwards /socket.io → http://localhost:3001 with WebSocket support.
-const socket: Socket = io({
+// In dev: VITE_SOCKET_URL is empty → connects to same origin, Vite proxy forwards to localhost:3001.
+// In production: VITE_SOCKET_URL=https://icebreaker.zafarr.xyz → connects directly to backend.
+const socket: Socket = io("https://icebreaker.zafarr.xyz" , {
   path: '/socket.io',
   autoConnect: true,
   reconnection: true,
