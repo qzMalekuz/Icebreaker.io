@@ -10,10 +10,10 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': 'http://localhost:3001',
-      '/health': 'http://localhost:3001',
+      '/api': 'https://icebreaker.zafarr.xyz',
+      '/health': 'https://icebreaker.zafarr.xyz',
       '/socket.io': {
-        target: 'http://localhost:3001',
+        target: 'wss:/icebreaker.zafarr.xyz',
         ws: true,
         changeOrigin: true,
       },
