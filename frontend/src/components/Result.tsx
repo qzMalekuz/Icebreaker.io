@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { GameOverPayload } from '../types';
 
 interface Particle { id: number; top: string; left: string; tx: string; ty: string; color: string; delay: string; duration: string; }
@@ -25,8 +25,14 @@ function makeParticles(): Particle[] {
   });
 }
 
+const DEMO_PAYLOADS: Record<string, GameOverPayload> = {
+  connected: { outcome: 'connected', strangerUsername: 'DemoStranger', shareLink: 'https://icebreaker.io/link/demo123' },
+  vanished:  { outcome: 'vanished' },
+};
+
 export default function Result() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [result, setResult] = useState<GameOverPayload | null>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
   const [copied, setCopied] = useState(false);
@@ -34,9 +40,11 @@ export default function Result() {
   const [sharing, setSharing] = useState(false);
 
   useEffect(() => {
-    const raw = sessionStorage.getItem('gameOver');
-    if (raw) {
-      const data: GameOverPayload = JSON.parse(raw);
+    const demo = searchParams.get('demo');
+    const data: GameOverPayload | null = demo && DEMO_PAYLOADS[demo]
+      ? DEMO_PAYLOADS[demo]
+      : (() => { const raw = sessionStorage.getItem('gameOver'); return raw ? JSON.parse(raw) : null; })();
+    if (data) {
       setResult(data);
       if (data.outcome === 'connected') setParticles(makeParticles());
     }
@@ -46,7 +54,7 @@ export default function Result() {
       setPrefs(p);
       setSharing(p.shareEnabled);
     }
-  }, []);
+  }, [searchParams]);
 
   function handleCopy() {
     if (!result?.shareLink) return;

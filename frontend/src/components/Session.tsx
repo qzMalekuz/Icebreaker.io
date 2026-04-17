@@ -1,7 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useSocket } from '../hooks/useSocket';
 import { MCQQuestion, MatchFoundPayload, NextQuestionPayload, RoundResultPayload, GameOverPayload } from '../types';
+
+const DEMO_PROMPT = "What's something you believed until embarrassingly recently?";
+
+const DEMO_OPTIONS = [
+  { id: 'A', text: 'That "irregardless" is not a real word' },
+  { id: 'B', text: 'That cracking knuckles causes arthritis' },
+  { id: 'C', text: 'That we only use 10% of our brains' },
+  { id: 'D', text: 'That lightning never strikes the same place twice' },
+];
+
+const DEMO_MESSAGES = [
+  { sender: 'you',      text: 'Honestly? That the Great Wall of China is visible from space. Took me way too long to learn otherwise.' },
+  { sender: 'stranger', text: 'Ha! Same energy — I thought "decimate" meant completely destroy. Turns out it literally means to reduce by a tenth.' },
+];
 
 type Phase = 'answering' | 'waiting_for_other' | 'round_result' | 'disconnected';
 
@@ -9,6 +23,7 @@ export default function Session() {
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
   const socket = useSocket();
+  const [searchParams] = useSearchParams();
 
   const [question, setQuestion]             = useState<MCQQuestion | null>(null);
   const [round, setRound]                   = useState(1);
@@ -24,13 +39,14 @@ export default function Session() {
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    if (searchParams.get('demo') === 'session') return; // demo mode uses static data, no sessionStorage
     const raw = sessionStorage.getItem('matchPayload');
     if (raw) {
       const payload: MatchFoundPayload = JSON.parse(raw);
       setQuestion(payload.question);
       setRound(payload.round);
     }
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     socket.on('answer_received',   () => setPhase('waiting_for_other'));
@@ -76,6 +92,12 @@ export default function Session() {
     socket.emit('submit_answer', { roomId, optionId });
   }
 
+  function handleLeave() {
+    socket.emit('leave_room', { roomId });
+    sessionStorage.removeItem('matchPayload');
+    navigate('/');
+  }
+
   const cardBase = "bg-surface border border-[var(--border)] rounded-card p-10 max-w-[380px] w-full flex flex-col items-center gap-4 text-center";
 
   // ── Disconnected ────────────────────────────────────────────────
@@ -92,6 +114,76 @@ export default function Session() {
             try again →
           </button>
         </div>
+      </div>
+    );
+  }
+
+  // ── Demo / preview mode (/session/demo?demo=session) ────────────
+  if (searchParams.get('demo') === 'session') {
+    const demoRound = 3; // show turn 3/6 (middle of session)
+    return (
+      <div data-testid="session-demo" className="min-h-dvh flex flex-col max-w-[600px] mx-auto px-4 pt-6 pb-8 gap-5">
+        {/* Round bar — round 3 of 3, showing turn 3/6 */}
+        <div data-testid="round-bar" className="flex items-center gap-[0.6rem] py-3 px-4 bg-surface border border-[var(--border)] rounded-card">
+          {[1, 2, 3].map(r => (
+            <div key={r} className={`w-[10px] h-[10px] rounded-full transition-all duration-300 ${
+              r < demoRound ? 'bg-success' :
+              r === demoRound ? 'bg-accent shadow-[0_0_8px_rgba(201,147,58,0.6)]' :
+              'bg-transparent border border-[rgba(255,255,255,0.15)]'
+            }`} />
+          ))}
+          <span data-testid="round-label" className="ml-auto font-mono text-[0.75rem] text-text-muted">round {demoRound} of 3</span>
+          <span data-testid="turn-counter" className="font-mono text-[0.65rem] text-text-muted ml-3 opacity-60">3 / 6 messages</span>
+        </div>
+
+        {/* Prompt card */}
+        <div data-testid="prompt-card" className="bg-surface2 border border-[var(--border)] border-l-4 border-l-accent rounded-card px-[1.4rem] py-5 shadow-[inset_0_0_40px_rgba(0,0,0,0.3)]">
+          <span className="block font-mono text-[0.68rem] uppercase tracking-[0.1em] text-accent mb-2">prompt</span>
+          <p data-testid="prompt-text" className="font-display italic text-[1.15rem] text-text leading-[1.5]">{DEMO_PROMPT}</p>
+        </div>
+
+        {/* Turn indicator */}
+        <p data-testid="turn-indicator" className="font-mono text-[0.75rem] text-text-muted text-center">
+          your turn — type your next message below.
+        </p>
+
+        {/* Message thread — 2 sample messages */}
+        <div data-testid="message-thread" className="flex flex-col gap-3">
+          {DEMO_MESSAGES.map((msg, i) => (
+            <div key={i} className={`flex ${msg.sender === 'you' ? 'justify-end' : 'justify-start'}`}>
+              <div
+                data-testid={msg.sender === 'you' ? 'message-bubble-right' : 'message-bubble-left'}
+                className={`max-w-[75%] px-4 py-3 rounded-2xl font-mono text-[0.82rem] leading-[1.55] ${
+                  msg.sender === 'you'
+                    ? 'bg-accent text-[#281800] rounded-br-sm'
+                    : 'bg-surface border border-[var(--border)] text-text rounded-bl-sm'
+                }`}
+              >
+                {msg.text}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Message input — send button disabled when empty */}
+        <div className="flex gap-3 mt-auto">
+          <input
+            data-testid="message-input"
+            type="text"
+            placeholder="say something..."
+            className="flex-1 bg-surface border border-[var(--border)] rounded-card px-4 py-3 font-mono text-[0.85rem] text-text outline-none focus:border-accent placeholder:text-text-muted"
+            disabled
+          />
+          <button
+            data-testid="send-btn"
+            disabled
+            className="px-5 py-3 rounded-card bg-accent text-[#281800] font-mono text-[0.75rem] font-bold uppercase tracking-[0.15em] opacity-30 cursor-not-allowed"
+          >
+            Send
+          </button>
+        </div>
+
+        <p className="font-mono text-[0.6rem] text-center text-text-muted opacity-40 tracking-widest uppercase">demo preview — no live connection</p>
       </div>
     );
   }
@@ -211,6 +303,16 @@ export default function Session() {
           <span>waiting for the stranger to answer...</span>
         </div>
       )}
+
+      {/* Leave lobby */}
+      <div className="flex justify-center pt-2">
+        <button
+          onClick={handleLeave}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-transparent border border-[rgba(80,69,55,0.2)] text-text-muted font-mono text-[0.6rem] uppercase tracking-[0.2em] cursor-pointer transition-all hover:border-danger hover:text-danger-light active:scale-[0.96]"
+        >
+          <span>↩</span> leave lobby
+        </button>
+      </div>
     </div>
   );
 }

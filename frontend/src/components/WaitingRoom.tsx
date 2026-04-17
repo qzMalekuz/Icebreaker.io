@@ -21,7 +21,7 @@ export default function WaitingRoom() {
   const [matched, setMatched] = useState(false);
 
   useEffect(() => {
-    const username = sessionStorage.getItem('username');
+    const username = sessionStorage.getItem('username') || 'demo';
     if (!username) { navigate('/'); return; }
 
     function joinQueue() {
@@ -160,6 +160,7 @@ export default function WaitingRoom() {
       {/* Bottom-right actions */}
       <div className={`fixed bottom-12 right-12 flex items-center gap-3 z-20 transition-opacity duration-500 ${matched ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <button
+          data-testid="leave-lobby-btn"
           onClick={handleCancel}
           className="flex items-center gap-[0.6rem] px-5 py-[0.65rem] rounded-full bg-[rgba(29,27,26,0.6)] border border-[rgba(80,69,55,0.12)] backdrop-blur-glass text-[rgba(230,225,223,0.5)] font-mono text-[0.6rem] uppercase tracking-[0.2em] cursor-pointer whitespace-nowrap transition-all hover:bg-[rgba(147,0,10,0.15)] hover:text-danger-light active:scale-[0.96]"
         >

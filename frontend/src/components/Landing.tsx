@@ -28,8 +28,10 @@ export default function Landing() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const clean = username.trim().replace(/[^a-zA-Z0-9_ ]/g, '').slice(0, 20);
-    if (!clean) { setError('letters, numbers, spaces and underscores only.'); return; }
+    const raw = username.trim();
+    if (!raw) { setError('alias cannot be empty.'); return; }
+    if (/[^a-zA-Z0-9_ ]/.test(raw)) { setError('letters, numbers, spaces and underscores only.'); return; }
+    const clean = raw.slice(0, 20);
     setError('');
     sessionStorage.setItem('username', clean);
     setShowReveal(true);
@@ -137,6 +139,7 @@ export default function Landing() {
                     value={username}
                     maxLength={20}
                     onChange={e => setUsername(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') handleSubmit(e as unknown as React.FormEvent); }}
                     className="w-full bg-transparent border-none outline-none text-text-soft font-mono text-[1.1rem] text-center py-4 caret-amber italic placeholder:text-[rgba(230,225,223,0.25)] placeholder:not-italic"
                   />
                 </div>

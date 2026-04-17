@@ -1,58 +1,116 @@
 [
   {
     "id": "TC001",
-    "title": "Complete the 3-round session and reach the decision screen",
-    "description": "A matched visitor can progress through all three rounds by answering only when it is their turn and then reach the decision screen at the end.",
-    "category": "Turn-based Conversation Session (3 messages each)",
+    "title": "Proceed to waiting room after valid alias and reveal confirmation",
+    "description": "Verifies a visitor can enter a valid alias, confirm the reveal modal, and reach the waiting room successfully.",
+    "category": "Username Entry",
     "steps": [
       {
         "type": "action",
-        "description": "Navigate to /"
+        "description": "Navigate to http://localhost:5174/"
       },
       {
         "type": "action",
-        "description": "Fill a valid alias into the alias field"
+        "description": "Fill 'TestAlias' into the alias input field"
       },
       {
         "type": "action",
-        "description": "Submit the find-a-stranger action to enter matchmaking"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the session to start after a match is found"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 1"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 2"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 3"
+        "description": "Click the 'Find a Stranger' submit button"
       },
       {
         "type": "assertion",
-        "description": "Verify the decision screen is displayed after all rounds complete"
+        "description": "Verify the reveal modal is visible (data-testid='enter-void-btn' is present)"
+      },
+      {
+        "type": "action",
+        "description": "Click the button with data-testid='enter-void-btn'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the URL is now /waiting"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the text 'finding your stranger' is visible"
       }
     ],
     "priority": "High"
   },
   {
     "id": "TC002",
-    "title": "Submit valid alias and proceed to waiting room",
-    "description": "Verifies a visitor can enter a valid alias, confirm the reveal modal, and be taken to the waiting room.",
+    "title": "Leave lobby returns to landing page",
+    "description": "After entering the waiting room as a solo user (no match available), clicking Leave Lobby emits leave_queue and navigates back to /.",
+    "category": "Matchmaking Queue",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to / and hard-reload to get a fresh socket"
+      },
+      {
+        "type": "action",
+        "description": "Fill 'LeaveTester2' into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Click the button with data-testid='enter-void-btn' to confirm the reveal modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the waiting room is showing (text 'finding your stranger' visible)"
+      },
+      {
+        "type": "action",
+        "description": "Click the 'Leave Lobby' button in the bottom-right corner"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the URL returns to / (landing page)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the alias input field is visible on landing page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Start matchmaking using Enter key",
+    "description": "Verifies a visitor can submit a valid alias using the Enter key and proceed through the reveal confirmation to the waiting room.",
     "category": "Username Entry",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:5174/"
+      },
+      {
+        "type": "action",
+        "description": "Fill 'EnterKeyUser' into the alias input field"
+      },
+      {
+        "type": "action",
+        "description": "Press Enter key in the alias input field to submit"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the reveal modal appears (data-testid='enter-void-btn' is visible)"
+      },
+      {
+        "type": "action",
+        "description": "Click the button with data-testid='enter-void-btn'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the URL is /waiting and waiting room is shown"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Rejoin queue successfully after leaving lobby",
+    "description": "Verifies a user can leave the lobby and then start matchmaking again in the same visit without stale state blocking re-queue.",
+    "category": "Matchmaking Queue",
     "steps": [
       {
         "type": "action",
@@ -60,15 +118,31 @@
       },
       {
         "type": "action",
-        "description": "Fill Icebreaker_01 into the alias field"
+        "description": "Fill Stranger_Requeue into the alias field"
       },
       {
         "type": "action",
-        "description": "Submit the alias to request a match"
+        "description": "Submit the alias to start matchmaking"
       },
       {
         "type": "action",
-        "description": "Confirm the reveal modal to proceed"
+        "description": "Click the button with data-testid='enter-void-btn' to confirm the reveal modal"
+      },
+      {
+        "type": "action",
+        "description": "Click the leave lobby control"
+      },
+      {
+        "type": "action",
+        "description": "Fill Stranger_Requeue2 into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to start matchmaking"
+      },
+      {
+        "type": "action",
+        "description": "Click the button with data-testid='enter-void-btn' to confirm the reveal modal"
       },
       {
         "type": "assertion",
@@ -78,234 +152,9 @@
     "priority": "High"
   },
   {
-    "id": "TC003",
-    "title": "Stay connected and get a shareable link",
-    "description": "After completing the conversation, choosing to stay connected leads to a matched outcome where a shareable link is presented.",
-    "category": "Decision & Result Screen",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to /"
-      },
-      {
-        "type": "action",
-        "description": "Fill a valid alias into the alias field"
-      },
-      {
-        "type": "action",
-        "description": "Submit the find-a-stranger action to enter matchmaking"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the session to start after a match is found"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 1"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 2"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 3"
-      },
-      {
-        "type": "action",
-        "description": "Choose the option to stay connected"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify a matched outcome is displayed and a shareable link is presented"
-      }
-    ],
-    "priority": "High"
-  },
-  {
-    "id": "TC004",
-    "title": "Waiting room shows active waiting state after joining queue",
-    "description": "Verifies that after entering the waiting room the UI indicates the user is waiting in the matchmaking queue.",
-    "category": "Matchmaking Queue (Waiting Room)",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to /"
-      },
-      {
-        "type": "action",
-        "description": "Fill Icebreaker_03 into the alias field"
-      },
-      {
-        "type": "action",
-        "description": "Submit the alias to request a match"
-      },
-      {
-        "type": "action",
-        "description": "Confirm the reveal modal to proceed"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify a waiting-for-match state is displayed"
-      }
-    ],
-    "priority": "High"
-  },
-  {
     "id": "TC005",
-    "title": "Vanish results in gone outcome with no share link",
-    "description": "After completing the conversation, choosing to vanish results in a gone outcome where no shareable link is shown.",
-    "category": "Decision & Result Screen",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to /"
-      },
-      {
-        "type": "action",
-        "description": "Fill a valid alias into the alias field"
-      },
-      {
-        "type": "action",
-        "description": "Submit the find-a-stranger action to enter matchmaking"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the session to start after a match is found"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 1"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 2"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 3"
-      },
-      {
-        "type": "action",
-        "description": "Choose the option to vanish"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify a gone outcome is displayed and no shareable link is shown"
-      }
-    ],
-    "priority": "High"
-  },
-  {
-    "id": "TC006",
-    "title": "Cancel matchmaking from waiting room returns to landing",
-    "description": "Verifies a visitor can leave the lobby from the waiting room and return to the landing page.",
-    "category": "Matchmaking Queue (Waiting Room)",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to /"
-      },
-      {
-        "type": "action",
-        "description": "Fill Icebreaker_04 into the alias field"
-      },
-      {
-        "type": "action",
-        "description": "Submit the alias to request a match"
-      },
-      {
-        "type": "action",
-        "description": "Confirm the reveal modal to proceed"
-      },
-      {
-        "type": "action",
-        "description": "Leave the lobby to cancel matchmaking"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify the user returns to the landing page"
-      }
-    ],
-    "priority": "High"
-  },
-  {
-    "id": "TC007",
-    "title": "Match again returns to landing and clears prior session state",
-    "description": "From the result screen, the visitor can start over via match again and returns to the landing page ready for a new match without stale session state.",
-    "category": "Decision & Result Screen",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to /"
-      },
-      {
-        "type": "action",
-        "description": "Fill a valid alias into the alias field"
-      },
-      {
-        "type": "action",
-        "description": "Submit the find-a-stranger action to enter matchmaking"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the session to start after a match is found"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 1"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 2"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 3"
-      },
-      {
-        "type": "action",
-        "description": "Choose the option to stay connected"
-      },
-      {
-        "type": "action",
-        "description": "Click the match-again action"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify the user lands on the landing page in a ready state to start matchmaking"
-      }
-    ],
-    "priority": "High"
-  },
-  {
-    "id": "TC008",
-    "title": "Online stranger count displays on landing",
-    "description": "Verifies the landing page shows an online indicator with a visible online stranger count.",
+    "title": "Online count is visible on landing",
+    "description": "Verifies the landing page displays an online stranger count indicator so visitors can gauge activity.",
     "category": "Online Count Display",
     "steps": [
       {
@@ -314,16 +163,99 @@
       },
       {
         "type": "assertion",
-        "description": "Verify an online stranger count is displayed"
+        "description": "Verify an online strangers count indicator is displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Waiting room shows online count panel",
+    "description": "Verifies the waiting room displays the online stranger count panel while the user is queued.",
+    "category": "Matchmaking Queue",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill Stranger_Count into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to start matchmaking"
+      },
+      {
+        "type": "action",
+        "description": "Click the button with data-testid='enter-void-btn' to confirm the reveal modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an online strangers count indicator is displayed in the waiting room"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Waiting room shows waiting state UI",
+    "description": "Verifies the waiting room shows the queue waiting animation/state to indicate the user is in the lobby.",
+    "category": "Matchmaking Queue",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill Stranger_WaitUI into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to start matchmaking"
+      },
+      {
+        "type": "action",
+        "description": "Click the button with data-testid='enter-void-btn' to confirm the reveal modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a waiting animation or waiting state is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC008",
+    "title": "Block alias with disallowed characters",
+    "description": "Verifies that submitting an alias containing disallowed characters is prevented and shows a validation error.",
+    "category": "Username Entry",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill bad!alias into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Submit the alias to start matchmaking"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a username character validation error is visible"
       }
     ],
     "priority": "Medium"
   },
   {
     "id": "TC009",
-    "title": "Online stranger count displays in waiting room",
-    "description": "Verifies the waiting room displays an online stranger count panel while waiting for a match.",
-    "category": "Matchmaking Queue (Waiting Room)",
+    "title": "Block alias longer than 20 characters",
+    "description": "Verifies that submitting an alias longer than the maximum length is prevented and shows a validation error.",
+    "category": "Username Entry",
     "steps": [
       {
         "type": "action",
@@ -331,28 +263,24 @@
       },
       {
         "type": "action",
-        "description": "Fill Icebreaker_02 into the alias field"
+        "description": "Fill ThisAliasIsWayTooLongOver20 into the alias field"
       },
       {
         "type": "action",
-        "description": "Submit the alias to request a match"
-      },
-      {
-        "type": "action",
-        "description": "Confirm the reveal modal to proceed"
+        "description": "Submit the alias to start matchmaking"
       },
       {
         "type": "assertion",
-        "description": "Verify an online stranger count is displayed in the waiting room"
+        "description": "Verify a username length validation error is visible"
       }
     ],
     "priority": "Medium"
   },
   {
     "id": "TC010",
-    "title": "Prevent answering out of turn",
-    "description": "A matched visitor cannot submit an answer when it is not their turn and remains in the waiting state with a visible validation/rejection.",
-    "category": "Turn-based Conversation Session (3 messages each)",
+    "title": "Read safety guidance and return to start matchmaking",
+    "description": "Verifies a visitor can navigate to the Safety page from the landing page and return to the landing page ready to start matchmaking.",
+    "category": "Static Safety & Philosophy Pages",
     "steps": [
       {
         "type": "action",
@@ -360,36 +288,28 @@
       },
       {
         "type": "action",
-        "description": "Fill a valid alias into the alias field"
+        "description": "Click the navigation item that opens the Safety page"
       },
       {
         "type": "action",
-        "description": "Submit the find-a-stranger action to enter matchmaking"
+        "description": "Scroll through the Safety content"
       },
       {
         "type": "action",
-        "description": "Wait for the session to start after a match is found"
-      },
-      {
-        "type": "action",
-        "description": "Wait until the UI indicates it is not your turn"
-      },
-      {
-        "type": "action",
-        "description": "Attempt to select an answer option while it is not your turn"
+        "description": "Click the navigation item that returns to the landing page"
       },
       {
         "type": "assertion",
-        "description": "Verify an out-of-turn validation/rejection is visible"
+        "description": "Verify the landing page shows the alias entry and a control to start matchmaking"
       }
     ],
     "priority": "Medium"
   },
   {
     "id": "TC011",
-    "title": "Copy the share link after matching",
-    "description": "After both users stay connected, the visitor can copy the share link and sees a UI confirmation that it was copied.",
-    "category": "Decision & Result Screen",
+    "title": "Read philosophy content and return to start matchmaking",
+    "description": "Verifies a visitor can navigate to the Philosophy page from the landing page and return to the landing page ready to start matchmaking.",
+    "category": "Static Safety & Philosophy Pages",
     "steps": [
       {
         "type": "action",
@@ -397,56 +317,28 @@
       },
       {
         "type": "action",
-        "description": "Fill a valid alias into the alias field"
+        "description": "Click the navigation item that opens the Philosophy page"
       },
       {
         "type": "action",
-        "description": "Submit the find-a-stranger action to enter matchmaking"
+        "description": "Scroll through the Philosophy content"
       },
       {
         "type": "action",
-        "description": "Wait for the session to start after a match is found"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 1"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 2"
-      },
-      {
-        "type": "action",
-        "description": "Wait for the waiting-for-stranger state while the stranger takes their turn"
-      },
-      {
-        "type": "action",
-        "description": "When it is your turn, select an answer option for round 3"
-      },
-      {
-        "type": "action",
-        "description": "Choose the option to stay connected"
-      },
-      {
-        "type": "action",
-        "description": "Click the control to copy the share link"
+        "description": "Click the navigation item that returns to the landing page"
       },
       {
         "type": "assertion",
-        "description": "Verify a copy confirmation is visible"
+        "description": "Verify the landing page shows the alias entry and a control to start matchmaking"
       }
     ],
     "priority": "Medium"
   },
   {
     "id": "TC012",
-    "title": "Reject empty alias submission",
-    "description": "Verifies that submitting without an alias shows a validation error and does not start matchmaking.",
-    "category": "Username Entry",
+    "title": "Navigate between Safety and Philosophy without losing ability to start",
+    "description": "Verifies a safety-conscious visitor can move between Safety and Philosophy pages and still return to the landing page able to begin matchmaking.",
+    "category": "Static Safety & Philosophy Pages",
     "steps": [
       {
         "type": "action",
@@ -454,73 +346,27 @@
       },
       {
         "type": "action",
-        "description": "Fill  into the alias field"
+        "description": "Click the navigation item that opens the Safety page"
       },
       {
         "type": "action",
-        "description": "Submit the alias to request a match"
+        "description": "Click the navigation item that opens the Philosophy page"
+      },
+      {
+        "type": "action",
+        "description": "Click the navigation item that returns to the landing page"
       },
       {
         "type": "assertion",
-        "description": "Verify an alias required validation error is visible"
+        "description": "Verify the landing page shows the alias entry and a control to start matchmaking"
       }
     ],
     "priority": "Low"
   },
   {
     "id": "TC013",
-    "title": "Reject alias with invalid characters",
-    "description": "Verifies that submitting an alias with disallowed characters shows a validation error and does not proceed to the reveal modal.",
-    "category": "Username Entry",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to /"
-      },
-      {
-        "type": "action",
-        "description": "Fill Bad@lias! into the alias field"
-      },
-      {
-        "type": "action",
-        "description": "Submit the alias to request a match"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify an alias validation error is visible"
-      }
-    ],
-    "priority": "Low"
-  },
-  {
-    "id": "TC014",
-    "title": "Reject alias longer than 20 characters",
-    "description": "Verifies that submitting an alias exceeding the maximum length shows a validation error and blocks progression.",
-    "category": "Username Entry",
-    "steps": [
-      {
-        "type": "action",
-        "description": "Navigate to /"
-      },
-      {
-        "type": "action",
-        "description": "Fill ThisAliasIsWayTooLong123 into the alias field"
-      },
-      {
-        "type": "action",
-        "description": "Submit the alias to request a match"
-      },
-      {
-        "type": "assertion",
-        "description": "Verify an alias length validation error is visible"
-      }
-    ],
-    "priority": "Low"
-  },
-  {
-    "id": "TC015",
-    "title": "Read safety guidance",
-    "description": "An anonymous visitor can navigate to the safety page and see the safety information content displayed.",
+    "title": "Safety page is reachable via direct navigation",
+    "description": "Verifies the Safety page loads via direct navigation and presents informational content.",
     "category": "Static Safety & Philosophy Pages",
     "steps": [
       {
@@ -528,16 +374,203 @@
         "description": "Navigate to /safety"
       },
       {
+        "type": "action",
+        "description": "Scroll through the page"
+      },
+      {
         "type": "assertion",
-        "description": "Verify static safety information is displayed"
+        "description": "Verify safety guidance content is displayed"
       }
     ],
     "priority": "Low"
   },
   {
+    "id": "TC014",
+    "title": "Philosophy page is reachable via direct navigation",
+    "description": "Verifies the Philosophy page loads via direct navigation and presents informational content.",
+    "category": "Static Safety & Philosophy Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /philosophy"
+      },
+      {
+        "type": "action",
+        "description": "Scroll through the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify product philosophy or about content is displayed"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC015",
+    "title": "Landing page loads with hero, alias input and CTA visible",
+    "description": "Verifies the landing page renders the hero heading, alias input field, and 'Find a Stranger' button without errors.",
+    "category": "Landing Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the heading 'Icebreaker.io' is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the alias input field is visible and focused"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the 'Find a Stranger' button is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
     "id": "TC016",
-    "title": "Reject whitespace-only alias submission",
-    "description": "Verifies that an alias consisting only of whitespace is treated as invalid and shows a validation error.",
+    "title": "Empty alias shows error message on Enter key press",
+    "description": "Verifies pressing Enter with an empty alias field shows the 'alias cannot be empty' error message.",
+    "category": "Username Validation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:5174/"
+      },
+      {
+        "type": "action",
+        "description": "Click the alias input field without typing anything"
+      },
+      {
+        "type": "action",
+        "description": "Press Enter key in the alias input field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an error message containing 'alias cannot be empty' is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the URL remains at / (no navigation occurred)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the reveal modal is NOT visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC017",
+    "title": "Alias with special characters shows validation error",
+    "description": "Verifies entering an alias like 'Bad@lias!' shows a validation error and does not open the reveal modal.",
+    "category": "Username Validation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill 'Bad@lias!' into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Press Enter or click Find a Stranger"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an error message about allowed characters is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the reveal modal does NOT appear"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC018",
+    "title": "Find a Stranger button is disabled when alias is empty",
+    "description": "Verifies the submit button is in a disabled state when the alias input is empty.",
+    "category": "Username Validation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the 'Find a Stranger' button has the disabled attribute when alias input is empty"
+      },
+      {
+        "type": "action",
+        "description": "Fill a single character into the alias field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the 'Find a Stranger' button is now enabled"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC019",
+    "title": "Online stranger count shows a number on landing page",
+    "description": "Verifies the live stranger count indicator is present on the landing page and shows a numeric value.",
+    "category": "Landing Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify text matching 'stranger(s) online' is visible on the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the pulsing amber dot indicator is visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC020",
+    "title": "Navbar links to Safety and Philosophy are visible",
+    "description": "Verifies the top navbar contains working links to the Safety and Philosophy pages.",
+    "category": "Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the navbar contains a 'Safety' link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the navbar contains a 'Philosophy' link"
+      },
+      {
+        "type": "action",
+        "description": "Click the Safety navbar link"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the URL changes to /safety"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC021",
+    "title": "Reveal modal appears after valid alias submission",
+    "description": "Verifies the RevealModal opens when a valid alias is submitted before navigating to the waiting room.",
     "category": "Username Entry",
     "steps": [
       {
@@ -546,24 +579,277 @@
       },
       {
         "type": "action",
-        "description": "Fill      into the alias field"
+        "description": "Fill 'TestUser' into the alias field"
       },
       {
         "type": "action",
-        "description": "Submit the alias to request a match"
+        "description": "Click 'Find a Stranger' button"
       },
       {
         "type": "assertion",
-        "description": "Verify an alias validation error is visible"
+        "description": "Click the button with data-testid='enter-void-btn' to confirm the reveal modal"
       }
     ],
-    "priority": "Low"
+    "priority": "High"
   },
   {
-    "id": "TC017",
-    "title": "Read philosophy/about information",
-    "description": "An anonymous visitor can navigate to the philosophy page and see the philosophy/about content displayed.",
-    "category": "Static Safety & Philosophy Pages",
+    "id": "TC022",
+    "title": "Waiting room displays 'finding your stranger' heading",
+    "description": "Verifies the waiting room renders its primary heading and animation after entering the queue.",
+    "category": "Matchmaking",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:5174/"
+      },
+      {
+        "type": "action",
+        "description": "Fill 'WaitingUser' into the alias input field"
+      },
+      {
+        "type": "action",
+        "description": "Click Find a Stranger to open the reveal modal"
+      },
+      {
+        "type": "action",
+        "description": "Click the button with data-testid='enter-void-btn'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the text 'finding your stranger' is visible in the waiting room"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the URL is /waiting"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC023",
+    "title": "Waiting room shows stranger count from socket",
+    "description": "Verifies the online count panel in the top-right of the waiting room receives and displays a count.",
+    "category": "Matchmaking",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill 'CountChecker' into the alias field and proceed through reveal modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the top-right panel shows 'Currently Online' label"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a numeric stranger count or dash placeholder is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC024",
+    "title": "Leave Lobby button is visible and functional in waiting room",
+    "description": "Verifies the Leave Lobby button (data-testid=leave-lobby-btn) is present in the waiting room and clicking it returns the user to /.",
+    "category": "Matchmaking",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:5174/waiting (accessible directly without sessionStorage)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the text 'finding your stranger' is visible confirming the waiting room loaded"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a button with data-testid='leave-lobby-btn' is present on the page"
+      },
+      {
+        "type": "action",
+        "description": "Click the button with data-testid='leave-lobby-btn'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the URL is now http://localhost:5174/ (landing page)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the alias input field is visible on the landing page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC025",
+    "title": "Result screen shows you matched when outcome is connected (demo mode)",
+    "description": "Uses ?demo=connected query param to render the connected result screen without needing a real session.",
+    "category": "Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /result/demo-room?demo=connected"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the heading 'you matched.' is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the stranger username 'DemoStranger' is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a share link button is visible on the page"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC026",
+    "title": "Result screen shows gone when outcome is vanished (demo mode)",
+    "description": "Uses ?demo=vanished query param to render the vanish result screen without needing a real session.",
+    "category": "Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /result/demo-room?demo=vanished"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the text 'gone.' is visible on the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no share link button is present"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a 'match again' link is present"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC027",
+    "title": "Share link copy button works on connected result screen (demo mode)",
+    "description": "Uses ?demo=connected to test the copy-to-clipboard share link interaction.",
+    "category": "Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /result/demo-room?demo=connected"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the share link text 'icebreaker.io/link/demo123' is visible as a button"
+      },
+      {
+        "type": "action",
+        "description": "Click the share link button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the button text changes to 'copied \u2713'"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC028",
+    "title": "Match Again button navigates to landing and clears session",
+    "description": "Verifies clicking 'match again' on the result page clears sessionStorage and navigates to /.",
+    "category": "Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /result/test-room-999"
+      },
+      {
+        "type": "action",
+        "description": "Inject sessionStorage key 'gameOver' with value {\"outcome\":\"connected\",\"strangerUsername\":\"Nova\",\"shareLink\":\"https://icebreaker.io/link/zzz\"}"
+      },
+      {
+        "type": "action",
+        "description": "Reload the page"
+      },
+      {
+        "type": "action",
+        "description": "Click 'match again \u2192' button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL is now /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify sessionStorage is cleared (no gameOver key)"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC029",
+    "title": "Identity reveal toggle switches blur state",
+    "description": "Verifies the toggle in the result screen reveals/hides the contact credentials with blur effect.",
+    "category": "Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /result/test-room-toggle"
+      },
+      {
+        "type": "action",
+        "description": "Inject sessionStorage 'gameOver' with outcome=connected and 'revealPrefs' with {\"shareEnabled\":false,\"contact\":\"@handle\",\"note\":\"hey!\"}"
+      },
+      {
+        "type": "action",
+        "description": "Reload the page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the contact field is blurred (blur CSS applied)"
+      },
+      {
+        "type": "action",
+        "description": "Click the identity sharing toggle button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the contact field is no longer blurred and '@handle' is readable"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC030",
+    "title": "Safety page has correct heading and content",
+    "description": "Verifies /safety page renders safety-related content with an appropriate heading.",
+    "category": "Static Pages",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /safety"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page contains a heading or content section related to safety"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page is not blank and has visible text content"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC031",
+    "title": "Philosophy page has correct heading and content",
+    "description": "Verifies /philosophy page renders philosophy-related content with an appropriate heading.",
+    "category": "Static Pages",
     "steps": [
       {
         "type": "action",
@@ -571,9 +857,408 @@
       },
       {
         "type": "assertion",
-        "description": "Verify philosophy/about information is displayed"
+        "description": "Verify the page contains a heading or content section related to philosophy"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page is not blank and has visible text content"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC032",
+    "title": "Unknown route redirects to landing page",
+    "description": "Verifies navigating to an unknown route like /xyz redirects to / via the wildcard route.",
+    "category": "Navigation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /this-route-does-not-exist"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the URL is redirected to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the landing page content is visible"
       }
     ],
     "priority": "Low"
+  },
+  {
+    "id": "TC033",
+    "title": "Enter the Void navbar button opens reveal modal",
+    "description": "Verifies the 'Enter the Void' button in the navbar opens the RevealModal when a valid alias is present.",
+    "category": "Landing Page",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill 'NavbarUser' into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Click the 'Enter the Void' button in the navbar"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the reveal modal appears"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC034",
+    "title": "Alias exactly 20 characters is accepted",
+    "description": "Verifies a 20-character alias at the boundary is accepted and proceeds to the reveal modal.",
+    "category": "Username Validation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill exactly 20 valid characters (e.g. 'ABCDEFGHIJKLMNOPQRST') into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Click Find a Stranger"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no validation error is shown"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the reveal modal appears"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC035",
+    "title": "Alias with only spaces is rejected",
+    "description": "Verifies an alias consisting entirely of spaces is rejected with an empty error.",
+    "category": "Username Validation",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Fill five spaces into the alias field"
+      },
+      {
+        "type": "action",
+        "description": "Click Find a Stranger or press Enter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an error message is shown (alias cannot be empty after trim)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the reveal modal does NOT appear"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC039",
+    "title": "Match Again button on result screen navigates to landing",
+    "description": "Verifies clicking 'match again \u2192' on the demo result screen navigates to /.",
+    "category": "Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /result/demo-room?demo=connected"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify 'you matched.' heading is visible"
+      },
+      {
+        "type": "action",
+        "description": "Click the 'match again \u2192' button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the URL is now /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the landing page alias input is visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC040",
+    "title": "Match Again clears sessionStorage on click",
+    "description": "Verifies clicking 'match again' calls sessionStorage.clear() so no stale game state remains.",
+    "category": "Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /result/demo-room?demo=vanished"
+      },
+      {
+        "type": "action",
+        "description": "Click the 'match again \u2192' button"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify URL is / (landing)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify sessionStorage does not contain a 'gameOver' key"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC041",
+    "title": "Identity sharing toggle reveals blurred contact info",
+    "description": "Verifies the identity reveal toggle on the connected result screen unblurs contact credentials.",
+    "category": "Result Screen",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /result/demo-room?demo=connected"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify 'you matched.' is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the identity sharing toggle button is present"
+      },
+      {
+        "type": "action",
+        "description": "Click the identity sharing toggle to enable sharing"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the toggle is now in the 'on' / active state (amber colour)"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC042",
+    "title": "Session demo shows prompt card with hardcoded prompt text",
+    "description": "Verifies the session demo mode at /session/demo?demo=session renders the prompt card with the correct prompt text.",
+    "category": "Session",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:5174/session/demo?demo=session"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the element with data-testid='session-demo' is present"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the element with data-testid='prompt-card' is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the element with data-testid='prompt-text' contains text 'What\\'s something you believed until embarrassingly recently?'"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC043",
+    "title": "Session demo shows round indicator and turn counter at 3/6",
+    "description": "Verifies the session demo renders round bar showing round 3 of 3 and the 3/6 messages turn counter.",
+    "category": "Session",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:5174/session/demo?demo=session"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the element with data-testid='round-bar' is present"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the element with data-testid='round-label' contains text 'round 3 of 3'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the element with data-testid='turn-counter' contains text '3 / 6 messages'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the element with data-testid='turn-indicator' contains text 'your turn'"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC044",
+    "title": "Session demo shows two message bubbles on correct sides",
+    "description": "Verifies the message thread in demo mode shows your message on the right and the stranger message on the left.",
+    "category": "Session",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:5174/session/demo?demo=session"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the element with data-testid='message-thread' is present"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify there is an element with data-testid='message-bubble-right' (your message on the right)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify there is an element with data-testid='message-bubble-left' (stranger message on the left)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify data-testid='message-bubble-right' contains text about Great Wall of China"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify data-testid='message-bubble-left' contains text about decimate"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC045",
+    "title": "Waiting-for-other message appears after selecting an answer in demo mode",
+    "description": "Verifies clicking an answer in demo session shows waiting-for-stranger UI state.",
+    "category": "Session",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:5174/session/demo?demo=session"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the prompt card with data-testid='prompt-card' is visible"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify data-testid='send-btn' is present"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify data-testid='turn-indicator' contains 'your turn'"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC046",
+    "title": "Session page renders nothing when no matchPayload and no demo param",
+    "description": "Verifies /session/:roomId renders blank (null guard) when accessed without sessionStorage or ?demo param.",
+    "category": "Session",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Clear sessionStorage in browser"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to http://localhost:5174/session/orphan-room (no ?demo param)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no question card, prompt card, or answer options are rendered"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page is blank or shows only minimal content (null render)"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC047",
+    "title": "GET /health returns 200 with status ok",
+    "description": "Verifies the backend health check endpoint is reachable and returns the expected status.",
+    "category": "API Endpoints",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send HTTP GET request to http://localhost:3001/health"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status is 200"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response body contains field 'status' with value 'ok'"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC048",
+    "title": "GET /api/stats returns onlineCount and activeSessions",
+    "description": "Verifies the stats endpoint returns the expected JSON structure.",
+    "category": "API Endpoints",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send HTTP GET request to http://localhost:3001/api/stats"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status is 200"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response JSON contains numeric field 'onlineCount'"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response JSON contains numeric field 'activeSessions'"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC049",
+    "title": "GET /api/prompts returns non-empty array of strings",
+    "description": "Verifies the prompts endpoint returns a non-empty array of string prompts.",
+    "category": "API Endpoints",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Send HTTP GET request to http://localhost:3001/api/prompts"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response status is 200"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify response body is a JSON array"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the array has at least one element and each element is a string"
+      }
+    ],
+    "priority": "High"
   }
 ]

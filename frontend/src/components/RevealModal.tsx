@@ -9,10 +9,7 @@ export default function RevealModal({ onEnter }: Props) {
   const [contactError, setContactError] = useState('');
   const [entering, setEntering] = useState(false);
 
-  const canEnter = contact.trim().length > 0;
-
   function handleEnter() {
-    if (!canEnter) { setContactError('This field is required to enter.'); return; }
     setContactError('');
     sessionStorage.setItem('revealPrefs', JSON.stringify({ shareEnabled, contact: contact.trim(), note: note.trim() }));
     setEntering(true);
@@ -83,9 +80,10 @@ export default function RevealModal({ onEnter }: Props) {
         </p>
 
         <button
+          data-testid="enter-void-btn"
           onClick={handleEnter}
           disabled={entering}
-          className={`w-full py-4 bg-accent text-[#281800] border-none rounded-btn font-mono text-[0.72rem] font-bold uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(201,147,58,0.25)] transition-all active:scale-[0.97] ${entering ? 'opacity-60 scale-[0.98] cursor-not-allowed' : !canEnter ? 'opacity-40 cursor-not-allowed hover:bg-accent hover:shadow-none' : 'cursor-pointer hover:bg-[#daa84a] hover:shadow-[0_0_30px_rgba(201,147,58,0.45)]'}`}
+          className={`w-full py-4 bg-accent text-[#281800] border-none rounded-btn font-mono text-[0.72rem] font-bold uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(201,147,58,0.25)] transition-all active:scale-[0.97] ${entering ? 'opacity-60 scale-[0.98] cursor-not-allowed' : 'cursor-pointer hover:bg-[#daa84a] hover:shadow-[0_0_30px_rgba(201,147,58,0.45)]'}`}
         >
           {entering ? 'entering...' : 'Enter the Void'}
         </button>
