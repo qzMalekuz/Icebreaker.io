@@ -6,6 +6,8 @@ Anonymous stranger matching. Turn-based. Disappears when it's over.
 
 Built for the TestSprite Season 2 Hackathon.
 
+Demo video: https://youtu.be/mOng0kLfNfI
+
 ---
 
 ## What it is
